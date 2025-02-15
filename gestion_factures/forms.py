@@ -81,6 +81,8 @@ class FormFacture (forms.Form):
         })
     )
 
+    
+
 
 class FormProduit (forms.Form):
 
@@ -108,3 +110,5 @@ class FormProduit (forms.Form):
             'placeholder': 'Entrez le prix unitaire'
         })
     )
+
+    

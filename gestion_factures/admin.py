@@ -32,7 +32,7 @@ class AfficheDetailsFactureDefinitive (admin.ModelAdmin):
 
 
 class AfficheBonLivraison (admin.ModelAdmin):
-    list_display = ('facture_def', 'client', 'objet', 'save_by', 'total_qte', 'nom_bon', 'status', 'date_bl')
+    list_display = ('facture_def', 'numero_bl','client', 'objet', 'save_by', 'total_qte', 'nom_bon', 'status', 'date_bl')
 
 
 class AfficheDetailsBonLivraison (admin.ModelAdmin):

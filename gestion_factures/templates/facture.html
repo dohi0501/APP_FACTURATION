@@ -49,12 +49,12 @@
             margin-bottom: 15px;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         .form-group1 {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group1 div{
             width: 50%;
@@ -95,7 +95,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .product-item input:nth-child(1) {
             flex: 1;
@@ -313,11 +313,17 @@
                                 <div>
                                     <label>{{ form_facture.client.label }}</label>
                                     {{ form_facture.client }}
+                                    {% if form_facture.client.errors %}
+                                        <small class="text-danger">{{ form_facture.client.errors.0 }}</small>
+                                    {% endif %}
                                 </div>
 
                                 <div>
                                     <label>{{ form_facture.nom_bon.label }}</label>
                                     {{ form_facture.nom_bon }}
+                                    {% if form_facture.client.errors %}
+                                        <small class="text-danger">{{ form_facture.nom_bon.errors.0 }}</small>
+                                    {% endif %}
                                 </div>
                             </div>
                             
@@ -327,20 +333,32 @@
                                     <div>
                                         <label >{{ form_facture.numero_proforma.label }}</label>
                                         {{ form_facture.numero_proforma }}
+                                        {% if form_facture.numero_proforma.errors %}
+                                            <small class="text-danger">{{ form_facture.numero_proforma.errors.0 }}</small>
+                                        {% endif %}
                                     </div>
                                     
                                     <div>
                                         <label>{{ form_facture.numero_bl.label }}</label>
                                         {{ form_facture.numero_bl }}
+                                        {% if form_facture.numero_bl.errors %}
+                                            <small class="text-danger">{{ form_facture.numero_bl.errors.0 }}</small>
+                                        {% endif %}
                                     </div>
                                     <div style="text-align: center;">
                                         <label>{{ form_facture.status.label }}</label>
                                         {{ form_facture.status }}
+                                        {% if form_facture.status.errors %}
+                                            <small class="text-danger">{{ form_facture.status.errors.0 }}</small>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>{{ form_facture.objet.label }}</label>
                                     {{ form_facture.objet }}
+                                    {% if form_facture.objet.errors %}
+                                        <small class="text-danger">{{ form_facture.objet.errors.0 }}</small>
+                                    {% endif %}
                                 </div>
                                 <div id="productList">
                                     <div class="product-item">

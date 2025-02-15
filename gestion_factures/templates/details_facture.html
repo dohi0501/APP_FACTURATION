@@ -18,77 +18,219 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/print.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
 
-        <!-- Sidebar -->
-        {% include "sidebar.html" %}
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                {% include "navbar.html" %}
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Liste des factures</h1>
-                    
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Factures</h6>
-                        </div>
-                        <div class="card-body">
-                            {{ proforma.numero_proforma }}
-                            {{ bon_livraison.num_bl_be }}
-                            {{ proforma.montant_ht }}
-                            {{ facture_def.status }}
-                            {% for detail in details_proforma %}
-                                {{ detail.nom_produit }}
-                                {{ detail.qte_produit }}
-                                {{ detail.prix_produit }}
-                                {{ detail.Montant }}
-                            {% endfor %}
-                        
-                        </div>
-                    </div>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
+    <div class="card-header py-3" style="padding-left: 150px;padding-right: 150px;">
+        <span class="m-0 font-weight-bold text-primary">Détails de la facture N°{{ proforma.numero_proforma }} : </span><button onclick="imprimerSections()" class="btn">🖨️ imprimer</button><button onclick="imprimerSections()" class="btn"><i class="fas fa-download fa-sm text-white-50"></i>télécharger</button> <a href="{% url 'liste_facture' user.username %}" class="btn">retour</a>
     </div>
+                            
+    <section class="proforma" id="proforma">
+        <div class="date">Abidjan, le</div>
+        <div class="num_pro">PROFORMA  N°{{ proforma.numero_proforma }}<span class="annee"></span></div>
+        <div class="nom_client">
+            <table class="client_table">
+                <tr>
+                    <td>DOIT:</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="nm_clt">{{ proforma.client }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="div_objet">
+            <span class="objet">Objet:</span>
+            {{ proforma.objet }}
+        </div>
+        <div class="tableau_pro">
+            <table class="table_impression">
+                <thead>
+                    <tr>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITE</th>
+                        <th>PRIX UNITAIRE (FCFA)</th>
+                        <th>MONTANT (FCFA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for details in details_proforma %}
+                        <tr>
+                            <td class="separateur">{{ details.nom_produit }}</td>
+                            <td class="separateur">{{ details.qte_produit }}</td>
+                            <td class="separateur">{{ details.prix_produit }}</td>
+                            <td class="separateur">{{ details.montant_proforma }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <h5>MONTANT HT</h5>
+                        </td>
+                        <td class="separateur">{{ proforma.montant_ht }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h5>TVA (18%)</h5></td>
+                        <td class="separateur">{{ proforma.montant_tva }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h5>MONTANT NET A PAYER</h5></td>
+                        <td class="separateur">{{ proforma.montant_ttc }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="montant_arret">
+            <p>
+                Arrêtée la presente facture proforma à la somme de: <br> 
+                <h1 class="lettre">
+                    {{ proforma.montant_ttc }} FRANCS CFA
+                </h1>
+            </p>
+            <p>
+                <span class="gerant">LE GERANT</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="facture_definitive" id="facture_definitive">
+        <div class="date">Abidjan, le</div>
+        <div class="num_pro"></div>
+        <div class="nom_client">
+            <table class="client_table">
+                <tr>
+                    <td>DOIT</td>
+                </tr>
+                <tr rowspan="3" class="nom">
+                    <td>{{ proforma.client }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="div_objet">
+            <span class="objet">Objet:</span>
+            {{ proforma.objet }}
+        </div>
+        <div class="tableau_pro">
+            <table class="table_impression">
+                <thead>
+                    <tr>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITE</th>
+                        <th>PRIX UNITAIRE (FCFA)</th>
+                        <th>MONTANT (FCFA)</th>
+                    </tr>
+                </thead>
+                <tbody class="tablebody">
+                    {% for details in details_proforma %}
+                        <tr>
+                            <td>{{ details.nom_produit }}</td>
+                            <td class="separateur">{{ details.qte_produit }}</td>
+                            <td class="separateur">{{ details.prix_produit }}</td>
+                            <td class="separateur">{{ details.montant_proforma }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="tablefoot">
+                    <tr>
+                        <td colspan="3">
+                            <h5>MONTANT HT</h5>
+                        </td>
+                        <td class="separateur">{{ proforma.montant_ht }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <h5>TVA (18%)</h5>
+                        </td>
+                        <td class="separateur">{{ proforma.montant_tva }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <h5>MONTANT NET A PAYER</h5>
+                        </td>
+                        <td class="separateur">{{ proforma.montant_ttc }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="montant_arret">
+            <p>
+                Arrêtée la presente facture definitive à la somme de:
+                <h1 class="lettres">
+                    {{ proforma.montant_ttc }} FRANCS CFA
+                </h1>
+            </p>
+            <p>
+                <span class="gerant">LE GERANT</span>
+            </p>
+        </div>
+        
+    </section>
+
+    <section class="bon_livraison" id="bon_livraison">
+        
+        <div class="date">Abidjan, le </div>
+        <div class="num_pro">BON DE LIVRAISON  N°{{ bon_livraison.numero_bl }}<span class="annee1"></span></div>
+        <div class="nom_client">
+            <table class="client_table">
+                <tr>
+                    <td>DOIT</td>
+                </tr>
+                <tr rowspan="3">
+                    <td>{{ bon_livraison.client }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="div_objet">
+            <span class="objet">Objet:</span>
+            {{ bl.objet }}
+        </div>
+        <div class="tableau_pro">
+            <table class="table_impression">
+                <thead>
+                    <tr>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for details in details_proforma %}
+                        <tr>
+                            <td>{{ details.nom_produit }}</td>
+                            <td class="separateur">{{ details.qte_produit }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <h5>TOTAL</h5>
+                        </td>
+                        <td class="separateur">{{ bon_livraison.total_qte }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="exe_clt">
+            <p>
+                <span class="executant">L'executant</span> <br> 
+                (Nom, signature et date)
+            </p>
+            <p>
+                <span class="clt">LE CLIENT</span><br>
+                (Nom, signature et date)
+            </p>
+        </div>
+    </section>
+
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -96,27 +238,11 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
+    
+    
+
+
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
@@ -125,6 +251,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'js/js_facture/imprim_details.js' %}"></script>
 
     <!-- Page level plugins -->
     <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>

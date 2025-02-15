@@ -47,7 +47,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Liste des factures</h1>
+                    <h3 class="h3 mb-1 text-gray-600">Liste des factures</h3>
                     
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -59,9 +59,9 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Proforma N°</th>
+                                            <th>Proforma</th>
                                             <th>Client</th>
-                                            <th>Montant HT (FCFA)</th>
+                                            <th>HT(fcfa)</th>
                                             <th>Payée</th>
                                             <th>Date</th>
                                             <th>Actions</th>
@@ -69,29 +69,29 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Proforma N°</th>
+                                            <th>Proforma</th>
                                             <th>Client</th>
-                                            <th>Montant HT (FCfA)</th>
+                                            <th>HT (fcfa)</th>
                                             <th>Payée</th>
                                             <th>Date</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        {% for p, f in factures %}
+                                        {% for p in factures %}
                                             <tr>
-                                                <td>{{p.numero_proforma}}</td>
+                                                <td>N°{{p.numero_proforma}}</td>
                                                 <td>{{p.client}}</td>
                                                 <td>{{p.montant_ht}}</td>
                                                 <td>
-                                                    {% if f.status == True %}
+                                                    {% if p.status == True %}
                                                         <span class="btn btn-info btn-circle btn-sm">
-                                                            <i class="fas fa-check-circle"></i>
-                                                        </span>
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </span> Oui
                                                     {% else %}
                                                         <span class="btn btn-success btn-circle btn-sm">
-                                                            <i class="fas fa-times-circle"></i>
-                                                        </span>
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </span> Non
                                                     {% endif %} 
                                                 </td>
                                                 <td>{{p.date_proforma}}</td>
@@ -99,7 +99,7 @@
                                                     <a href="{% url 'details_facture' user.username p.id %}" class="btn btn-info btn-circle btn-sm">
                                                         <i class="fas fa-info-circle"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-success btn-circle btn-sm">
+                                                    <a href="{% url 'modifier_facture' user.username p.id %}"" class="btn btn-success btn-circle btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                 </td>
@@ -119,13 +119,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
+            {% include "footer.html" %}
             <!-- End of Footer -->
 
         </div>

@@ -55,7 +55,7 @@ class Proforma(models.Model):
     date_proforma = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.numero_proforma
+        return f'#{self.id} - {self.numero_proforma}'
     
     class Meta:
         ordering = ['-date_proforma']
