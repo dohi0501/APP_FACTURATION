@@ -22,7 +22,6 @@
     <style>
         *{
             box-sizing: border-box;
-            
         }
         input[type ="checkbox"]{
             cursor: pointer;
@@ -220,6 +219,13 @@
             .product-item {
                 flex-direction: column;
             }
+            .nom_client_bon{
+                display: flex;
+                flex-direction: column;
+            }
+            .nom_client_bon div{
+                width: 100%;
+            }
             .form-group input, .form-group select, .product-item input {
                 font-size: 12px;
                 padding: 10px;
@@ -309,7 +315,7 @@
 
                             <!-- Informations client -->
                             <h3>Vueillez remplir les champs pour créer une nouvelle facture</h3>
-                            <div class="form-group1">
+                            <div class="form-group1 nom_client_bon">
                                 <div>
                                     <label>{{ form_facture.client.label }}</label>
                                     {{ form_facture.client }}
@@ -329,7 +335,7 @@
                             
                             <!-- Produits -->
                             <div class="products">
-                                <div class="form-group1">
+                                <div class="form-group1 nom_client_bon">
                                     <div>
                                         <label >{{ form_facture.numero_proforma.label }}</label>
                                         {{ form_facture.numero_proforma }}

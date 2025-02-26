@@ -155,3 +155,29 @@
     color: white;
 }
 
+@media (max-width: 950px) {
+    .card-header{
+        display: flex;
+        padding: 10px 10px;
+        align-items: center;
+        width: 900;
+    }
+    .card-header .text{
+        color: blue;
+        font-weight: 500;
+        font-size: 15px;
+        font-family: sans-serif;
+    }
+    .btn {
+        background-color: #364468e0;
+        color: white;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: .8rem;
+        margin: 0 5px;
+        text-decoration: none;
+    }
+}
+
