@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +19,6 @@ def access_refuse(request):
 
 def Custom_404(request, exception):
     return render(request, '404.html', status=404)
-
 
 
 # vue de connexion pour accéder à l'application
@@ -56,7 +55,6 @@ def login_user(request, *args, **kwargs):
         form = AuthenticationForm()
         
     return render(request, 'login.html', {'form': form})
-
 
 
 # vue pour enregistrer un nouvelle utilisateur
@@ -118,6 +116,7 @@ def accueil (request, username, *args, **kwargs):
     user = User.objects.get(username=username)
     return render(request, 'accueil.html', {'user': user})
 
+
 # vue pour ajouter un client
 @login_required(login_url='/')
 @user_passes_test(is_user)
@@ -141,6 +140,38 @@ def ajout_client(request, username,  *args, **kwargs):
     return render(request, 'client.html', {'form': form, 'user': user})
 
 
+# vue pour la page liste_client
+@login_required(login_url='/')
+@user_passes_test(is_user)
+def liste_client(request, username, *args, **kwargs):
+    user = User.objects.get(username=username)
+    clients = Client.objects.all()  
+    return render(request, 'liste_client.html', {'clients': clients, 'user': user})
+
+
+# vue pour la modification d'un client
+@login_required(login_url='/')
+@user_passes_test(is_user)
+def modifier_client(request, client_id, username, *args, **kwargs):
+
+    user = User.objects.get(username=username)
+
+    client = get_object_or_404(Client, id=client_id)
+    
+    if request.method == "POST":
+        form = FormClient(request.POST, instance=client)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Le client a été modifié avec succès.")
+            return redirect('liste_client', username=user)
+    else:
+        form = FormClient(instance=client)
+    
+    return render(request, 'modifier_client.html', {'form': form, 'client': client})
+
+
+
+
 # vue pour enregistrer une nouvelle facture
 @login_required(login_url='/')
 @user_passes_test(is_user)
@@ -157,10 +188,10 @@ def facture(request, username, *args, **kwargs):
             # recupération des éléments du formulaire
             
             client = formFacture.cleaned_data['client']
-            nom_bon = formFacture.cleaned_data.get['nom_bon']
+            nom_bon = formFacture.cleaned_data.get('nom_bon')
             num_proforma = formFacture.cleaned_data['numero_proforma']
             num_bl_be = formFacture.cleaned_data['numero_bl']
-            status = formFacture.cleaned_data.get['status']
+            status = formFacture.cleaned_data.get('status')
             objet = formFacture.cleaned_data['objet']
 
 
@@ -176,7 +207,6 @@ def facture(request, username, *args, **kwargs):
                 objet = objet,
                 save_by = user
             )
-
             # enregistrement de la facture définitive
             fact_def = FactureDefinitive.objects.create(
                 proforma = prof,
@@ -284,14 +314,11 @@ def facture(request, username, *args, **kwargs):
         formFacture = FormFacture()
         formProduit = FormProduit()
     
-
     return render(request, 'facture.html', {
         'user': user,
         'form_facture': formFacture,
         'form_produit': formProduit
     })
-
-
 
 
 @login_required(login_url='/')
@@ -305,6 +332,7 @@ def modifier_facture (request, username, id, *args, **kwargs):
         facture = FactureDefinitive.objects.get(proforma=proforma)
         bon_livraison = BonLivraison.objects.get(facture_def=facture)
         details_produits = DetailsProforma.objects.filter(proforma=id)
+
     except:
         messages.error(request, "Facture introuvable.")
         return redirect('list_facture', username=user)
@@ -313,7 +341,6 @@ def modifier_facture (request, username, id, *args, **kwargs):
     if request.method == 'POST':
 
         print(f'la facture à modifier est la facture N°{proforma.numero_proforma}')
-
 
         form_facture = FormFacture(request.POST)
         form_produit = FormProduit(request.POST)
@@ -351,7 +378,6 @@ def modifier_facture (request, username, id, *args, **kwargs):
             bon_livraison.save_by = user
             bon_livraison.save()
 
-
             # enregistrement les détails de la facture
             for i in range(0, len(request.POST.getlist('nom_produit'))):
                 # recupération des listes du formulaire
@@ -367,7 +393,6 @@ def modifier_facture (request, username, id, *args, **kwargs):
                     prix_produit = prix_produit
                 )
                 
-
                 # enregistrement des détails de la proforma
                 DetailsProforma.objects.update_or_create(
                     proforma = proforma,
@@ -397,10 +422,9 @@ def modifier_facture (request, username, id, *args, **kwargs):
                     nom_produit = nom_produit,
                     prix_produit = prix_produit
                 )
-                
+
         else:
             messages.error(request, 'le formulaire est invalide')
-
 
         messages.success(request, f'la fcture N°{proforma.numero_proforma} a été modifier avec succès!')
         return redirect('liste_facture', username=user)
@@ -432,8 +456,6 @@ def modifier_facture (request, username, id, *args, **kwargs):
         'form_produit': formProduits,
         
     })
-
-
 
 
 @login_required(login_url='/')

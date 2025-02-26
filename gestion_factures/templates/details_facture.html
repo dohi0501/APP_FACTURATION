@@ -12,16 +12,11 @@
 
     <title>La liste des factures</title>
 
-    <!-- Custom fonts for this template -->
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+    
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/print.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -30,8 +25,8 @@
 <body id="page-top">
 
 
-    <div class="card-header py-3" style="padding-left: 150px;padding-right: 150px;">
-        <span class="m-0 font-weight-bold text-primary">Détails de la facture N°{{ proforma.numero_proforma }} : </span><button onclick="imprimerSections()" class="btn">🖨️ imprimer</button><button onclick="imprimerSections()" class="btn"><i class="fas fa-download fa-sm text-white-50"></i>télécharger</button> <a href="{% url 'liste_facture' user.username %}" class="btn">retour</a>
+    <div class="card-header" style="padding-left: 150px;padding-right: 150px;">
+        <span class="text">Détails de la facture N°{{ proforma.numero_proforma }} : </span><button onclick="imprimerSections()" class="btn">🖨️ imprimer</button><button onclick="imprimerSections()" class="btn">télécharger</button> <a href="{% url 'liste_facture' user.username %}" class="btn">retour</a>
     </div>
                             
     <section class="proforma" id="proforma">
@@ -57,8 +52,8 @@
                     <tr>
                         <th>DESCRIPTION</th>
                         <th>QUANTITE</th>
-                        <th>PRIX UNITAIRE (FCFA)</th>
-                        <th>MONTANT (FCFA)</th>
+                        <th>PRIX UNITAIRE</th>
+                        <th>MONTANT</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,8 +120,8 @@
                     <tr>
                         <th>DESCRIPTION</th>
                         <th>QUANTITE</th>
-                        <th>PRIX UNITAIRE (FCFA)</th>
-                        <th>MONTANT (FCFA)</th>
+                        <th>PRIX UNITAIRE</th>
+                        <th>MONTANT</th>
                     </tr>
                 </thead>
                 <tbody class="tablebody">
@@ -241,24 +236,7 @@
     <!-- Bootstrap core JavaScript-->
     
     
-
-
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
     <script src="{% static 'js/js_facture/imprim_details.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
 
 </body>
 

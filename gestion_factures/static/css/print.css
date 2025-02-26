@@ -1,18 +1,33 @@
 *{
     box-sizing: border-box;
+    margin: 0;
 }
 .proforma, .facture_definitive, .bon_livraison{
     min-width: 800px;
-    padding-top: 80px;
-    padding-left: 150px;
-    padding-right: 150px;
     margin-bottom: 80px;
+    color: #000000bd;
+}
+#proforma, #facture_definitive, #bon_livraison{
+    padding-top: 100px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.card-header{
+    background-color: #a19fff38;
+    padding: 15px 150px;
+}
+.card-header .text{
+    color: blue;
+    font-weight: 500;
+    font-size: 18px;
+    font-family: sans-serif;
 }
 .date{
     text-align: end;
     padding-right: 135px;
+    margin-top: 30px;
     margin-bottom: 50px;
-    font-size: 20px;
+    font-size: 18px;
 }
 .num_pro{
     margin: 25px 0;
@@ -27,10 +42,10 @@
 }
 .client_table{
     border-collapse: collapse;
-    width: 380px;
+    width: 350px;
     font-weight: 600;
     font-size: 17px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     min-height: 100px;
 }
 .client_table tr{
@@ -38,17 +53,17 @@
 }
 .client_table td{
     border: .4px solid #000;
-    font-size: 20px;
+    font-size: 18px;
 }
 .client_table tr:last-child td{
     text-align: center;
-    padding: 10px;
+    padding: 8px;
     min-height: 100px;
     max-height: 150px;
-    font-size: 22px;
+    font-size: 20px;
 }
 .div_objet{
-    font-size: 21px;
+    font-size: 19px;
     margin-bottom: 10px;
 }
 .objet{
@@ -63,12 +78,12 @@
 }
 .table_impression thead tr th{
     border: .4px solid #000;
-    padding: 7px;
+    padding: 6px;
     background-color: #949ce6dc;
 }
 .table_impression tbody tr td{
     border: .4px solid #000;
-    padding: 7px;
+    padding: 5px;
     text-align: end;
 }
 .table_impression tbody tr td:first-of-type{
@@ -80,17 +95,18 @@
 .table_impression tfoot tr td{
     background-color: #949ce6dc;
     text-align: end;
-    padding: 0 7px;
+    padding: 0 5px;
 }
 .table_impression tfoot tr td:first-child h5{
-    margin: 7px;
+    margin: 5px;
     text-align: center;
+    font-size: 17px;
 }
 .montant_arret{
     padding-right: 60px;
 }
 .montant_arret p{
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 0;
 }
 .lettre, .lettres{
@@ -106,7 +122,7 @@
     display: block;
     text-align: end;
     text-decoration: underline;
-    font-size: 18px;
+    font-size: 17px;
 }
 .exe_clt{
     display: flex;

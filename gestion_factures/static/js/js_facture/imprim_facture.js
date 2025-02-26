@@ -17,7 +17,7 @@ function imprimerSections1() {
                     height: 100vh; /* Chaque section occupe exactement une page */
                     page-break-before: always; /* Forcer chaque section à commencer sur une nouvelle page */
                     page-break-after: avoid; /* Empêcher une section d’être coupée */
-                    padding: 100px 40px;
+                    padding-top: 100px;
                 }
                 .proforma:first-of-type {
                     page-break-before: auto; /* Pas de saut avant la première section */
